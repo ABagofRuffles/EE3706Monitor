@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Monitor" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Toggle GPIO pin 40" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QBB-gO-xH7">
+                                <rect key="frame" x="16" y="227" width="149" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EI9-03-93U">
+                                <rect key="frame" x="158" y="384" width="59" height="30"/>
+                                <state key="normal" title="Connect"/>
+                                <connections>
+                                    <action selector="connectButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Yet-sl-QsR"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sdB-ZV-f4g">
+                                <rect key="frame" x="148.5" y="472" width="78" height="30"/>
+                                <state key="normal" title="Disconnect"/>
+                                <connections>
+                                    <action selector="disconnectButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Xfv-Ez-0hO"/>
+                                </connections>
+                            </button>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dei-DX-p7n">
+                                <rect key="frame" x="312" y="221.5" width="51" height="31.5"/>
+                                <connections>
+                                    <action selector="gpio40Switch:" destination="BYZ-38-t0r" eventType="valueChanged" id="h5W-kk-09o"/>
+                                </connections>
+                            </switch>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Aum-Nx-eor">
+                                <rect key="frame" x="262" y="261" width="97" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="8qr-sZ-2Io"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current Temperature:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ry0-Ig-HXe">
+                                <rect key="frame" x="16" y="266" width="165" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Aum-Nx-eor" firstAttribute="top" secondItem="dei-DX-p7n" secondAttribute="bottom" constant="8" symbolic="YES" id="1Vz-sn-w3C"/>
+                            <constraint firstItem="QBB-gO-xH7" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="207" id="2dH-X4-Eop"/>
+                            <constraint firstItem="dei-DX-p7n" firstAttribute="leading" secondItem="QBB-gO-xH7" secondAttribute="trailing" constant="147" id="BFU-a8-0w4"/>
+                            <constraint firstItem="Ry0-Ig-HXe" firstAttribute="leading" secondItem="QBB-gO-xH7" secondAttribute="leading" id="HbJ-Hq-52w"/>
+                            <constraint firstItem="Ry0-Ig-HXe" firstAttribute="centerY" secondItem="Aum-Nx-eor" secondAttribute="centerY" id="IIv-Ra-xtW"/>
+                            <constraint firstItem="EI9-03-93U" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Jyh-ga-tS2"/>
+                            <constraint firstItem="sdB-ZV-f4g" firstAttribute="top" secondItem="EI9-03-93U" secondAttribute="bottom" constant="58" id="MZ5-f5-Rbp"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Aum-Nx-eor" secondAttribute="bottom" constant="376" id="NFx-Fb-5iC"/>
+                            <constraint firstItem="Ry0-Ig-HXe" firstAttribute="top" secondItem="QBB-gO-xH7" secondAttribute="bottom" constant="18" id="NNM-Qx-epq"/>
+                            <constraint firstItem="EI9-03-93U" firstAttribute="centerX" secondItem="sdB-ZV-f4g" secondAttribute="centerX" id="NqE-mu-SYT"/>
+                            <constraint firstItem="Aum-Nx-eor" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="Pld-lV-XuT"/>
+                            <constraint firstItem="EI9-03-93U" firstAttribute="top" secondItem="Ry0-Ig-HXe" secondAttribute="bottom" constant="97" id="hXO-E2-kvL"/>
+                            <constraint firstItem="dei-DX-p7n" firstAttribute="centerY" secondItem="QBB-gO-xH7" secondAttribute="centerY" id="haH-Yk-JlX"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="sdB-ZV-f4g" secondAttribute="bottom" constant="165" id="n8p-4p-QKw"/>
+                            <constraint firstItem="EI9-03-93U" firstAttribute="top" secondItem="QBB-gO-xH7" secondAttribute="bottom" constant="136" id="yQn-CQ-udZ"/>
+                            <constraint firstItem="QBB-gO-xH7" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="zCT-XS-cwN"/>
+                            <constraint firstItem="Aum-Nx-eor" firstAttribute="leading" secondItem="Ry0-Ig-HXe" secondAttribute="trailing" constant="81" id="ztJ-KX-oBR"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <outlet property="temperatureLabel" destination="Aum-Nx-eor" id="YUa-cf-AcP"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+</document>
