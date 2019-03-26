@@ -3,14 +3,14 @@ import CocoaMQTT
 
 protocol MQTTDelegate {
     func setMessage(message: String)
-    func setStatus(_ status: MQTT.ConnectionStatus)
+    func setStatus(_ status: CocoaMQTTConnState)
 }
 
 class MQTT: CocoaMQTTDelegate {
     
     var delegate: MQTTDelegate?
-    let mqttClient = CocoaMQTT(clientID: "iOS Device", host: "192.168.0.22", port: 1883)
-    var connectionStatus: ConnectionStatus = .disconnected {
+    let mqttClient = CocoaMQTT(clientID: "iOS Device", host: "98.242.96.24", port: 1883)
+    var connectionStatus: CocoaMQTTConnState = .disconnected {
         didSet {
             delegate?.setStatus(connectionStatus)
         }
@@ -20,6 +20,7 @@ class MQTT: CocoaMQTTDelegate {
         mqttClient.delegate = self
         mqttClient.connect()
         connectionStatus = .connecting
+        
         print("Connecting...")
     }
     
@@ -48,9 +49,14 @@ class MQTT: CocoaMQTTDelegate {
     }
     
     func mqtt(_ mqtt: CocoaMQTT, didReceiveMessage message: CocoaMQTTMessage, id: UInt16) {
-        let messageDecoded = String(bytes: message.payload, encoding: .utf8)
-        print("Did receive a message: \(messageDecoded!)")
-        delegate?.setMessage(message: "\(messageDecoded!) ºC")
+        if let messageDecoded = String(bytes: message.payload, encoding: .utf8) {
+            print("Did receive a message: \(messageDecoded)")
+            delegate?.setMessage(message: "\(messageDecoded)")
+            
+        } else {
+            print("There was either:\nRecieving the message payload or\nwith converting the message payload into an integer")
+            delegate?.setMessage(message: "ERROR")
+        }
     }
     
     func mqtt(_ mqtt: CocoaMQTT, didSubscribeTopic topic: String) {
@@ -71,12 +77,5 @@ class MQTT: CocoaMQTTDelegate {
     
     func mqttDidDisconnect(_ mqtt: CocoaMQTT, withError err: Error?) {
         
-    }
-    
-    // MARK: - Nested types
-    enum ConnectionStatus {
-        case connecting
-        case connected
-        case disconnected
     }
 }
