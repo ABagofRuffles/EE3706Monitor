@@ -12,16 +12,22 @@ import TinyConstraints
 import GradientView
 
 class MainViewController: UIViewController {
-    // MARK: Variables
+
     // Instatiate a client
     let mqtt = MQTT()
     
     // Instatiate Display elements
     let gradientView = GradientView()
+    
     let dataDisplayView = DataDisplayView()
+    var currentUnit = Unit.celsius
+    var currentValue = 0.0
+    
+    
+    
     let connectionButton = UIButton()
 
-    // Everything in here runs on startup
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -45,7 +51,13 @@ class MainViewController: UIViewController {
         gradientView.colors = [topColor, bottomColor]
         
         // Data Initial Value to be displayed on top of the background
-        dataDisplayView.label.text = "0°C"
+        dataDisplayView.label.text = "\(currentValue)" + currentUnit.description
+        
+        let singleTap = UITapGestureRecognizer(target: self, action: #selector(MainViewController.tap))
+        singleTap.numberOfTapsRequired = 1
+        singleTap.numberOfTouchesRequired = 1
+        dataDisplayView.label.addGestureRecognizer(singleTap)
+        dataDisplayView.label.isUserInteractionEnabled = true
         
         // Adds the connection button on top of the background
         connectionButton.addTarget(self, action: #selector(connectButtonAction), for: .touchUpInside)
@@ -73,6 +85,7 @@ class MainViewController: UIViewController {
         connectionButton.setTitleColor(.lightGray, for: .highlighted)
         connectionButton.centerXToSuperview()
         connectionButton.bottomToSuperview(usingSafeArea: true)
+        connectionButton.height(150)
     }
     
     // MARK: - Functions
@@ -86,6 +99,24 @@ class MainViewController: UIViewController {
         mqtt.connect()
     }
     
+    @objc func tap(recognizer: UITapGestureRecognizer) {
+        print("Data label has been tapped.")
+
+        switch currentUnit {
+        case .celsius:
+            currentValue += 273.15
+            currentUnit = .kelvin
+        case .kelvin:
+            currentValue = (currentValue * 1.8) - 459.67
+            currentUnit = .fahrenheit
+        case .fahrenheit:
+            currentValue = (currentValue - 32)/1.8
+            currentUnit = .celsius
+        }
+        
+        dataDisplayView.label.text = "\(currentValue)" + currentUnit.description
+    }
+    
     // Excecutes when Connect Button gets pressed
     @objc func connectButtonAction() {
         switch mqtt.connectionStatus {
@@ -97,24 +128,48 @@ class MainViewController: UIViewController {
             break
         }
     }
+    
+    // MARK: - Nested types
+    public enum Unit{
+        case celsius
+        case kelvin
+        case fahrenheit
+        
+        public var description: String {
+            switch self {
+            case .celsius: return "°C"
+            case .kelvin: return "K"
+            case .fahrenheit: return "°F"
+            }
+        }
+    }
 }
 
 extension MainViewController: MQTTDelegate {
     // Sets the displayed real-time data
     func setMessage(message: String) {
-        dataDisplayView.label.text = message
+        switch currentUnit {
+        case .celsius:
+            currentValue = Double(message)!
+        case .kelvin:
+            currentValue = Double(message)! + 273.15
+        case .fahrenheit:
+            currentValue = (Double(message)! * 1.8) + 32
+        }
+        dataDisplayView.label.text = "\(currentValue)" + currentUnit.description
+
     }
     
     // Sets the button text to the relevant state
-    func setStatus(_ status: MQTT.ConnectionStatus) {
+    func setStatus(_ status: CocoaMQTTConnState) {
         switch status {
+        case .initial, .connected:
+            connectionButton.setTitle("Disconnect", for: .normal)
         case .connecting:
             connectionButton.setTitle("Connecting...", for: .normal)
-        case .connected:
-            connectionButton.setTitle("Disconnect", for: .normal)
         case .disconnected:
             connectionButton.setTitle("Connect", for: .normal)
-            dataDisplayView.label.text = "0°C"
+            dataDisplayView.label.text = "\(currentValue)" + currentUnit.description
         }
     }
 }
