@@ -5,5 +5,6 @@ target 'Monitor' do
 pod 'CocoaMQTT'
 pod 'TinyConstraints'
 pod 'GradientView'
+pod 'ILG'
 
 end

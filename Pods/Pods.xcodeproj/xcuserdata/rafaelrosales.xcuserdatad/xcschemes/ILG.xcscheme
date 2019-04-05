@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "86529150B9F5D35287A78B9978920B8A"
-               BuildableName = "CocoaMQTT.framework"
-               BlueprintName = "CocoaMQTT"
+               BlueprintIdentifier = "67F6BFDF970862B50013415920ED9794"
+               BuildableName = "ILG.framework"
+               BlueprintName = "ILG"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "86529150B9F5D35287A78B9978920B8A"
-            BuildableName = "CocoaMQTT.framework"
-            BlueprintName = "CocoaMQTT"
+            BlueprintIdentifier = "67F6BFDF970862B50013415920ED9794"
+            BuildableName = "ILG.framework"
+            BlueprintName = "ILG"
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

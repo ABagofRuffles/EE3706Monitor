@@ -10,6 +10,7 @@ import UIKit
 import CocoaMQTT
 import TinyConstraints
 import GradientView
+import ILG
 
 class MainViewController: UIViewController {
 
@@ -22,8 +23,7 @@ class MainViewController: UIViewController {
     let dataDisplayView = DataDisplayView()
     var currentUnit = Unit.celsius
     var currentValue = 0.0
-    
-    
+    var points = [Double]()
     
     let connectionButton = UIButton()
 
@@ -33,6 +33,8 @@ class MainViewController: UIViewController {
         
         mqtt.delegate = self
         
+        dataDisplayView.graphView.interactionDelegate = self
+
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: Notification.Name.NSExtensionHostWillResignActive, object: nil)
         notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: Notification.Name.NSExtensionHostWillEnterForeground, object: nil)
@@ -53,11 +55,11 @@ class MainViewController: UIViewController {
         // Data Initial Value to be displayed on top of the background
         dataDisplayView.label.text = "\(currentValue)" + currentUnit.description
         
-        let singleTap = UITapGestureRecognizer(target: self, action: #selector(MainViewController.tap))
-        singleTap.numberOfTapsRequired = 1
-        singleTap.numberOfTouchesRequired = 1
-        dataDisplayView.label.addGestureRecognizer(singleTap)
+        // Add Tap Gestures
+        dataDisplayView.label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(MainViewController.tap)))
         dataDisplayView.label.isUserInteractionEnabled = true
+        
+        dataDisplayView.graphView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap)))
         
         // Adds the connection button on top of the background
         connectionButton.addTarget(self, action: #selector(connectButtonAction), for: .touchUpInside)
@@ -73,12 +75,6 @@ class MainViewController: UIViewController {
         // Background constraints
         gradientView.edgesToSuperview()
         
-        // Data constraints
-        dataDisplayView.left(to: self.view, offset: 40)
-        dataDisplayView.right(to: self.view, offset: -40)
-        dataDisplayView.centerInSuperview()
-        dataDisplayView.height(300)
-        
         // Button properties and constraints
         connectionButton.setTitle("Connect", for: .normal)
         connectionButton.setTitleColor(.white, for: .normal)
@@ -86,6 +82,13 @@ class MainViewController: UIViewController {
         connectionButton.centerXToSuperview()
         connectionButton.bottomToSuperview(usingSafeArea: true)
         connectionButton.height(150)
+        
+        // Data constraints
+        dataDisplayView.left(to: self.view, offset: 40)
+        dataDisplayView.right(to: self.view, offset: -40)
+        dataDisplayView.bottomToTop(of: connectionButton, offset: 25)
+        dataDisplayView.centerInSuperview()
+        dataDisplayView.height(350)
     }
     
     // MARK: - Functions
@@ -117,6 +120,19 @@ class MainViewController: UIViewController {
         dataDisplayView.label.text = "\(currentValue)" + currentUnit.description
     }
     
+    @objc func handleTap() {
+        points = generateRandomList()
+        dataDisplayView.graphView.update(withDataPoints: points, animated: true)
+    }
+    
+    fileprivate func generateRandomList() -> [Double] {
+        var list = [Double]()
+        for _ in 0 ..< Int.random(in: 12...20) {
+            list.append(Double.random(in: 0...100))
+        }
+        return list
+    }
+    
     // Excecutes when Connect Button gets pressed
     @objc func connectButtonAction() {
         switch mqtt.connectionStatus {
@@ -145,7 +161,7 @@ class MainViewController: UIViewController {
     }
 }
 
-extension MainViewController: MQTTDelegate {
+extension MainViewController: MQTTDelegate, GraphViewInteractionDelegate {
     // Sets the displayed real-time data
     func setMessage(message: String) {
         switch currentUnit {
@@ -171,5 +187,17 @@ extension MainViewController: MQTTDelegate {
             connectionButton.setTitle("Connect", for: .normal)
             dataDisplayView.label.text = "\(currentValue)" + currentUnit.description
         }
+    }
+    
+    func graphViewInteraction(userInputDidChange currentIndex: Int, graphView: InteractiveLineGraphView, detailCardView: UIView?) {
+        dataDisplayView.graphDetailCard.textLabel.text = "Index #\(currentIndex)"
+    }
+    
+    func graphViewInteraction(userInputDidBeginOn graphView: InteractiveLineGraphView, detailCardView: UIView?) {
+        print("Began interaction")
+    }
+    
+    func graphViewInteraction(userInputDidEndOn graphView: InteractiveLineGraphView, detailCardView: UIView?) {
+        print("Ended interaction")
     }
 }

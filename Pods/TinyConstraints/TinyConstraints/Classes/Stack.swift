@@ -31,7 +31,7 @@
 public extension View {
     
     @discardableResult
-    public func stack(_ views: [View], axis: ConstraintAxis = .vertical, width: CGFloat? = nil, height: CGFloat? = nil, spacing: CGFloat = 0) -> Constraints {
+    func stack(_ views: [View], axis: ConstraintAxis = .vertical, width: CGFloat? = nil, height: CGFloat? = nil, spacing: CGFloat = 0) -> Constraints {
         
         translatesAutoresizingMaskIntoConstraints = false
         

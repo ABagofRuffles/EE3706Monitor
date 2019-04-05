@@ -1,3 +1,11 @@
+//
+//  MQTT.swift
+//  Monitor
+//
+//  Created by Rafael Rosales on 3/10/19.
+//  Copyright © 2019 Rafael Rosales. All rights reserved.
+//
+
 import Foundation
 import CocoaMQTT
 
@@ -9,7 +17,8 @@ protocol MQTTDelegate {
 class MQTT: CocoaMQTTDelegate {
     
     var delegate: MQTTDelegate?
-    let mqttClient = CocoaMQTT(clientID: "iOS Device", host: "98.242.96.24", port: 1883)
+    
+    let mqttClient = CocoaMQTT(clientID: "iOS Device " + ProcessInfo().processIdentifier.description, host: "98.242.96.24", port: 1883)
     var connectionStatus: CocoaMQTTConnState = .disconnected {
         didSet {
             delegate?.setStatus(connectionStatus)
@@ -37,7 +46,7 @@ class MQTT: CocoaMQTTDelegate {
     func mqtt(_ mqtt: CocoaMQTT, didConnectAck ack: CocoaMQTTConnAck) {
         connectionStatus = .connected
         print("Connected")
-        mqttClient.subscribe("rpi/DHT")
+        mqttClient.subscribe("rpi/TEMP")
     }
     
     func mqtt(_ mqtt: CocoaMQTT, didPublishMessage message: CocoaMQTTMessage, id: UInt16) {
@@ -64,18 +73,18 @@ class MQTT: CocoaMQTTDelegate {
     }
     
     func mqtt(_ mqtt: CocoaMQTT, didUnsubscribeTopic topic: String) {
-        
+        print("Did unsubscribe to \(topic)")
     }
     
     func mqttDidPing(_ mqtt: CocoaMQTT) {
-        
+        print("Did ping \(mqtt.host)")
     }
     
     func mqttDidReceivePong(_ mqtt: CocoaMQTT) {
-        
+        print("\(mqtt.host) ponged us!")
     }
     
     func mqttDidDisconnect(_ mqtt: CocoaMQTT, withError err: Error?) {
-        
+
     }
 }

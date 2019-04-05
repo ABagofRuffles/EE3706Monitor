@@ -8,12 +8,15 @@
 
 import UIKit
 import TinyConstraints
+import ILG
 
 class DataDisplayView: UIView {
 
     private let stackView = UIStackView()
     let label = UILabel()
-    let graphView = UIView()
+    let graphView = InteractiveLineGraphView()
+    let graphDetailCard = GraphDetailCardView()
+    
     
     // MARK: - Lifecycle
     override init(frame: CGRect) {
@@ -36,7 +39,7 @@ class DataDisplayView: UIView {
         addSubview(stackView)
         stackView.edgesToSuperview()
         stackView.axis = .vertical
-        stackView.spacing = 10
+        stackView.spacing = 25
         
         stackView.addArrangedSubview(label)
         stackView.addArrangedSubview(graphView)
@@ -49,7 +52,20 @@ class DataDisplayView: UIView {
     }
     
     private func setupGraphView() {
-        graphView.backgroundColor = UIColor.white.withAlphaComponent(0.5)
-        graphView.layer.cornerRadius = 15
+        graphView.lineWidth = 2
+        graphView.lineColor = .magenta
+        graphView.lineMinY = 0
+        graphView.lineMaxY = 100
+        
+        graphView.gridEnabled = false
+        graphView.dotsEnabled = true
+        
+        graphView.dotColor = .white
+        graphView.dotSize = 4
+        
+        graphView.interactionHighlightColor = .blue
+        graphView.interactionHighlightAlpha = 0.25
+        
+        graphView.interactionDetailCard = graphDetailCard
     }
 }

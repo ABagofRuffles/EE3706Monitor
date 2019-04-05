@@ -1,0 +1,6 @@
+framework module ILG {
+  umbrella header "ILG-umbrella.h"
+
+  export *
+  module * { export * }
+}
