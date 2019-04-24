@@ -26,6 +26,10 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
     var points = [Double]()
     
     let connectionButton = UIButton()
+    
+    let items = ["Temperature" , "Humidity"]
+    var segmentedControl = UISegmentedControl()
+
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -52,6 +56,15 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
         let bottomColor = UIColor(red: 150 / 255.0, green: 147 / 255.0, blue: 198 / 255.0, alpha: 1)
         gradientView.colors = [topColor, bottomColor]
         
+        // Segmented control
+        segmentedControl = UISegmentedControl(items : items)
+        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.addTarget(self, action: #selector(MainViewController.indexChanged(_:)), for: .valueChanged)
+        
+        segmentedControl.layer.cornerRadius = 5.0
+        segmentedControl.backgroundColor = .magenta
+        segmentedControl.tintColor = .white
+        
         // Data Initial Value to be displayed on top of the background
         dataDisplayView.label.text = "\(currentValue)" + currentUnit.description
         
@@ -66,9 +79,11 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
     }
     
     private func addSubviews() {
-        view.addSubview(gradientView)
-        view.addSubview(dataDisplayView)
-        view.addSubview(connectionButton)
+        self.view.addSubview(gradientView)
+        self.view.addSubview(dataDisplayView)
+        self.view.addSubview(connectionButton)
+        self.view.addSubview(segmentedControl)
+
     }
     
     private func setupConstraints() {
@@ -89,6 +104,12 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
         dataDisplayView.bottomToTop(of: connectionButton, offset: 25)
         dataDisplayView.centerInSuperview()
         dataDisplayView.height(350)
+        
+        // Segmented Control Constraints
+        segmentedControl.topToSuperview(offset: 25, usingSafeArea: true)
+        segmentedControl.centerXToSuperview()
+
+
     }
     
     // MARK: - Functions
@@ -100,6 +121,17 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
     @objc func appMovedToForeground() {
         print("App moved to foreground. Connecting...")
         mqtt.connect()
+    }
+    
+    @objc func indexChanged(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex{
+        case 0:
+            print("Temperature");
+        case 1:
+            print("Humidity")
+        default:
+            break
+        }
     }
     
     @objc func tap(recognizer: UITapGestureRecognizer) {
