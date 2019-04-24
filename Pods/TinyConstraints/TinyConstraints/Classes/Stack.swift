@@ -60,6 +60,8 @@ public extension View {
                 if let lastView = views.last, view == lastView {
                     constraints.append(view.rightToSuperview())
                 }
+            @unknown default:
+                fatalError()
             }
             
             if let width = width {

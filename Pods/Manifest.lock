@@ -4,7 +4,7 @@ PODS:
     - CocoaAsyncSocket (~> 7.6.3)
   - GradientView (2.3.3)
   - ILG (1.0.0)
-  - TinyConstraints (3.3.1)
+  - TinyConstraints (4.0.0)
 
 DEPENDENCIES:
   - CocoaMQTT
@@ -25,7 +25,7 @@ SPEC CHECKSUMS:
   CocoaMQTT: b506d38ad3bbe1c55a4f8ee8c9fd02c35da1a7d8
   GradientView: b044fa46c24062ee245a07a4e8bea4c5c4d63de0
   ILG: 7675cf389f34289e2c266410b618cfa0dee26701
-  TinyConstraints: dbf7519aefc01ea59d62244300c7718aec68e280
+  TinyConstraints: 03bc091844b98c18dbaead8b1153242a42721b56
 
 PODFILE CHECKSUM: 68df11eea9bb32a1da6bc85c43feac9f15533d1a
 

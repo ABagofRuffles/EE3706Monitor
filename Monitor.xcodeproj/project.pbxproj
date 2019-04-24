@@ -16,11 +16,13 @@
 		7A91F0FC2235D1C100BB39BE /* OldMain.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A91F0FA2235D1C100BB39BE /* OldMain.storyboard */; };
 		7A91F0FE2235D1C200BB39BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A91F0FD2235D1C200BB39BE /* Assets.xcassets */; };
 		7A91F1012235D1C200BB39BE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A91F0FF2235D1C200BB39BE /* LaunchScreen.storyboard */; };
-		980ACBC444F84A42E2D84F50 /* Pods_Monitor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCA76674E194D2EC1DC4BB2E /* Pods_Monitor.framework */; };
+		8604675E9A9B57940E0D3300 /* Pods_Monitor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10CEAFE2B2308854F305E1E3 /* Pods_Monitor.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1F8F54026AC0A230D0D84A81 /* Pods-Monitor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Monitor.debug.xcconfig"; path = "Target Support Files/Pods-Monitor/Pods-Monitor.debug.xcconfig"; sourceTree = "<group>"; };
+		10CEAFE2B2308854F305E1E3 /* Pods_Monitor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Monitor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		17EA9BC0C99522A6F41E4D51 /* Pods-Monitor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Monitor.release.xcconfig"; path = "Target Support Files/Pods-Monitor/Pods-Monitor.release.xcconfig"; sourceTree = "<group>"; };
+		56C12C1D33CD0BFB596306C5 /* Pods-Monitor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Monitor.debug.xcconfig"; path = "Target Support Files/Pods-Monitor/Pods-Monitor.debug.xcconfig"; sourceTree = "<group>"; };
 		7A42670622485CCE009EEB1C /* MQTT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQTT.swift; sourceTree = "<group>"; };
 		7A4267082248795F009EEB1C /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		7A42670D22488086009EEB1C /* DataDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataDisplayView.swift; sourceTree = "<group>"; };
@@ -32,8 +34,6 @@
 		7A91F0FD2235D1C200BB39BE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7A91F1002235D1C200BB39BE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7A91F1022235D1C200BB39BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E570E778DD80A902DB91C669 /* Pods-Monitor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Monitor.release.xcconfig"; path = "Target Support Files/Pods-Monitor/Pods-Monitor.release.xcconfig"; sourceTree = "<group>"; };
-		FCA76674E194D2EC1DC4BB2E /* Pods_Monitor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Monitor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,13 +41,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				980ACBC444F84A42E2D84F50 /* Pods_Monitor.framework in Frameworks */,
+				8604675E9A9B57940E0D3300 /* Pods_Monitor.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6C03792B3A6F8AB1CCD8E366 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				10CEAFE2B2308854F305E1E3 /* Pods_Monitor.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		7A42670A22487968009EEB1C /* Old */ = {
 			isa = PBXGroup;
 			children = (
@@ -63,7 +71,7 @@
 				7A91F0F52235D1C100BB39BE /* Monitor */,
 				7A91F0F42235D1C100BB39BE /* Products */,
 				FF4FF888004BB33F3A3DEBD4 /* Pods */,
-				D0FA88A0168207B2BF4325A5 /* Frameworks */,
+				6C03792B3A6F8AB1CCD8E366 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -91,19 +99,11 @@
 			path = Monitor;
 			sourceTree = "<group>";
 		};
-		D0FA88A0168207B2BF4325A5 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				FCA76674E194D2EC1DC4BB2E /* Pods_Monitor.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		FF4FF888004BB33F3A3DEBD4 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				1F8F54026AC0A230D0D84A81 /* Pods-Monitor.debug.xcconfig */,
-				E570E778DD80A902DB91C669 /* Pods-Monitor.release.xcconfig */,
+				56C12C1D33CD0BFB596306C5 /* Pods-Monitor.debug.xcconfig */,
+				17EA9BC0C99522A6F41E4D51 /* Pods-Monitor.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -115,11 +115,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7A91F1052235D1C200BB39BE /* Build configuration list for PBXNativeTarget "Monitor" */;
 			buildPhases = (
-				E9C40228DE4398AE1294AE88 /* [CP] Check Pods Manifest.lock */,
+				B3039F1D87DC52752BA3FE56 /* [CP] Check Pods Manifest.lock */,
 				7A91F0EF2235D1C100BB39BE /* Sources */,
 				7A91F0F02235D1C100BB39BE /* Frameworks */,
 				7A91F0F12235D1C100BB39BE /* Resources */,
-				8CEDC457CB735BC48D63E42D /* [CP] Embed Pods Frameworks */,
+				AF50E0A517A55F7109E713E3 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -177,7 +177,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		8CEDC457CB735BC48D63E42D /* [CP] Embed Pods Frameworks */ = {
+		AF50E0A517A55F7109E713E3 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -207,7 +207,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Monitor/Pods-Monitor-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E9C40228DE4398AE1294AE88 /* [CP] Check Pods Manifest.lock */ = {
+		B3039F1D87DC52752BA3FE56 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -385,7 +385,7 @@
 		};
 		7A91F1062235D1C200BB39BE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1F8F54026AC0A230D0D84A81 /* Pods-Monitor.debug.xcconfig */;
+			baseConfigurationReference = 56C12C1D33CD0BFB596306C5 /* Pods-Monitor.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -404,7 +404,7 @@
 		};
 		7A91F1072235D1C200BB39BE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E570E778DD80A902DB91C669 /* Pods-Monitor.release.xcconfig */;
+			baseConfigurationReference = 17EA9BC0C99522A6F41E4D51 /* Pods-Monitor.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

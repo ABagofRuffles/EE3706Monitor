@@ -47,6 +47,8 @@ class MQTT: CocoaMQTTDelegate {
         connectionStatus = .connected
         print("Connected")
         mqttClient.subscribe("rpi/TEMP")
+        mqttClient.subscribe("rpi/HUM")
+
     }
     
     func mqtt(_ mqtt: CocoaMQTT, didPublishMessage message: CocoaMQTTMessage, id: UInt16) {
@@ -64,7 +66,7 @@ class MQTT: CocoaMQTTDelegate {
             
         } else {
             print("There was either:\nRecieving the message payload or\nwith converting the message payload into an integer")
-            delegate?.setMessage(message: "ERROR")
+            delegate?.setMessage(message: "\(0)")
         }
     }
     

@@ -12,7 +12,7 @@ import TinyConstraints
 import GradientView
 import ILG
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController, UIScrollViewDelegate {
 
     // Instatiate a client
     let mqtt = MQTT()

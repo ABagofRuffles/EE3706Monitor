@@ -199,7 +199,7 @@ import UIKit
 			let colorSpace = CGColorSpaceCreateDeviceRGB()
 			let colorSpaceModel = colorSpace.model
 
-            let gradientColors = colors.map { (color: UIColor) -> AnyObject? in
+			let gradientColors = colors.map { (color: UIColor) -> AnyObject in
 				let cgColor = color.cgColor
 				let cgColorSpace = cgColor.colorSpace ?? colorSpace
 
