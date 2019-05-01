@@ -15,48 +15,48 @@ import Adafruit_DHT
 
 temperatureWanted = True
 
-def connectionStatus(client, userdata, flags, rc):
-        mqttClient.subscribe("rpi/UNIT")
+def on_message(client, userdata, message):
+        print (message.payload)
+        print (message.topic)
         
-def on_message(client, userdata, msg):
-        message = str(msg.payload)
-        print (message)
+        global temperatureWanted
         
-        if message is "yes":
+        if (message.payload == 'y'):
+                print("The TEMPERATURE is wanted")
                 temperatureWanted = True
         else:
+                print("The HUMIDITY is wanted")
                 temperatureWanted = False
-        
+
 
 clientName = "RPI Publisher"
 serverAddress = "192.168.0.22"
 
+print("creating new instance")
 mqttClient = mqtt.Client(clientName)
-mqttClient.on_connect = connectionStatus
 
+mqttClient.on_message=on_message        
+
+
+print("connecting to broker")
 mqttClient.connect(serverAddress)
+
+print("Subscribing to topic","monitor/UNIT")
+mqttClient.subscribe("monitor/UNIT")
+
 sensor = Adafruit_DHT.DHT11
-
-
-
-while True:
-        
-    mqttClient.on_message = on_message
     
-    humidity, temperature = Adafruit_DHT.read_retry(sensor, 4)
-    
+while mqttClient.loop() == 0:  
+        humidity, temperature = Adafruit_DHT.read_retry(sensor, 4)
 
-    if humidity is not None and temperature is not None:
-        if temperatureWanted: 
-                print('Temp={0:0.1f}*'.format(temperature, humidity))
-                mqttClient.publish("rpi/TEMP",'{0:0.1f}'.format(temperature))
-        else:
-                print("Humidity= %d"% (humidity))
-                mqttClient.publish("rpi/HUM","%d"% (humidity))
+        if humidity is not None and temperature is not None:
+                if temperatureWanted: 
+                        print('Temp={0:0.1f}*'.format(temperature))
+                        mqttClient.publish("monitor/TEMP",'{0:0.1f}'.format(temperature))
+                else:
+                        print("Humidity= %d"% (humidity))
+                        mqttClient.publish("monitor/HUM","%d" % (humidity))
+                
+        
 
-    else:
-        print('Failed to get reading. Try again!')
-        sys.exit(1)
-        
-        
 mqttClient.loop_forever()
