@@ -19,10 +19,13 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
     
     // Instatiate Display elements
     let gradientView = GradientView()
+    var topColor = UIColor(red: 69 / 255.0, green: 0 / 255.0, blue: 255 / 255.0, alpha: 1)
+    var bottomColor = UIColor(red: 150 / 255.0, green: 147 / 255.0, blue: 198 / 255.0, alpha: 1)
     
     let dataDisplayView = DataDisplayView()
     var currentUnit = Unit.celsius
-    var currentValue = 0.0
+    var currentValue = Float(0.0)
+    var pastValueFromPreviousUnit = Float(0.0)
     var points = [Double]()
     
     let connectionButton = UIButton()
@@ -52,8 +55,6 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - Setup
     private func setupSubviews() {
         // Background gradient properties
-        let topColor = UIColor(red: 69 / 255.0, green: 0 / 255.0, blue: 255 / 255.0, alpha: 1)
-        let bottomColor = UIColor(red: 150 / 255.0, green: 147 / 255.0, blue: 198 / 255.0, alpha: 1)
         gradientView.colors = [topColor, bottomColor]
         
         // Segmented control
@@ -67,10 +68,12 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
         
         // Data Initial Value to be displayed on top of the background
         dataDisplayView.label.text = "\(currentValue)" + currentUnit.description
+        dataDisplayView.graphView.update(withDataPoints: generateRandomList(), animated: true)
+
         
         // Add Tap Gestures
         dataDisplayView.label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(MainViewController.tap)))
-        dataDisplayView.label.isUserInteractionEnabled = true
+        handleTap()
         
         dataDisplayView.graphView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap)))
         
@@ -126,12 +129,26 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
     @objc func indexChanged(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex{
         case 0:
-            print("Temperature");
+            print("Changed to Temperature");
+            
+            mqtt.publish(topic: "monitor/UNIT", message: "y")
+
+            
+            // Change background gradient color
+            topColor = UIColor(red: 69 / 255.0, green: 0 / 255.0, blue: 255 / 255.0, alpha: 1)
+            currentUnit = .celsius
         case 1:
-            print("Humidity")
+            print("Changed to Humidity")
+            
+            mqtt.publish(topic: "monitor/UNIT", message: "nah")
+            
+            // Change background gradient color
+            topColor = UIColor(red: 0 / 255.0, green: 0 / 255.0, blue: 255 / 255.0, alpha: 1)
+            currentUnit = .humidity
         default:
             break
         }
+        gradientView.colors = [topColor, bottomColor]
     }
     
     @objc func tap(recognizer: UITapGestureRecognizer) {
@@ -147,6 +164,8 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
         case .fahrenheit:
             currentValue = (currentValue - 32)/1.8
             currentUnit = .celsius
+        case .humidity:
+            break
         }
         
         dataDisplayView.label.text = "\(currentValue)" + currentUnit.description
@@ -182,12 +201,14 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
         case celsius
         case kelvin
         case fahrenheit
+        case humidity
         
         public var description: String {
             switch self {
             case .celsius: return "°C"
             case .kelvin: return "K"
             case .fahrenheit: return "°F"
+            case .humidity: return "%"
             }
         }
     }
@@ -196,16 +217,20 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
 extension MainViewController: MQTTDelegate, GraphViewInteractionDelegate {
     // Sets the displayed real-time data
     func setMessage(message: String) {
-        switch currentUnit {
-        case .celsius:
-            currentValue = Double(message)!
-        case .kelvin:
-            currentValue = Double(message)! + 273.15
-        case .fahrenheit:
-            currentValue = (Double(message)! * 1.8) + 32
+        if Double(message) != nil {
+            switch currentUnit {
+            case .celsius, .humidity:
+                currentValue = Float(message)!
+            case .kelvin:
+                currentValue = Float(message)! + 273.15
+            case .fahrenheit:
+                currentValue = (Float(message)! * 1.8) + 32
+            }
+            points.append(Double(message)!)
+            dataDisplayView.graphView.update(withDataPoints: points, animated: true)
+            dataDisplayView.label.text = "\(currentValue)" + currentUnit.description
+            points.removeFirst()
         }
-        dataDisplayView.label.text = "\(currentValue)" + currentUnit.description
-
     }
     
     // Sets the button text to the relevant state

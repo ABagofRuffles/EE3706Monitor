@@ -46,8 +46,8 @@ class MQTT: CocoaMQTTDelegate {
     func mqtt(_ mqtt: CocoaMQTT, didConnectAck ack: CocoaMQTTConnAck) {
         connectionStatus = .connected
         print("Connected")
-        mqttClient.subscribe("rpi/TEMP")
-        mqttClient.subscribe("rpi/HUM")
+        mqttClient.subscribe("monitor/TEMP")
+        mqttClient.subscribe("monitor/HUM")
 
     }
     
@@ -61,7 +61,7 @@ class MQTT: CocoaMQTTDelegate {
     
     func mqtt(_ mqtt: CocoaMQTT, didReceiveMessage message: CocoaMQTTMessage, id: UInt16) {
         if let messageDecoded = String(bytes: message.payload, encoding: .utf8) {
-            print("Did receive a message: \(messageDecoded)")
+            print("Did receive a message: \(messageDecoded) on id: \(id)")
             delegate?.setMessage(message: "\(messageDecoded)")
             
         } else {
